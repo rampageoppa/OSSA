@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+/build/
+/dist/
+.pytest_cache/
+.coverage
+.DS_Store
+
+# Keep local data and generated experiment artifacts out of the repository.
+data/
+datasets/
+outputs/
+results/
+*.csv
+*.tsv
+*.jsonl
+*.mat
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.parquet
+*.pkl
+*.pickle
+*.zip
