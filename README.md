@@ -6,8 +6,6 @@
 
 [![NeurIPS 2026 Poster](https://img.shields.io/badge/NeurIPS_2026-Poster-5545A0)](https://rampageoppa.github.io/projects/ossa/)
 [![arXiv:2611.14663](https://img.shields.io/badge/arXiv-2611.14663-B31B1B?logo=arxiv)](https://arxiv.org/abs/2611.14663)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
-[![Synthetic examples](https://img.shields.io/badge/Examples-Synthetic-17806D)](src/ossa/demo.py)
 
 [**🌐 Project page**](https://rampageoppa.github.io/projects/ossa/) &nbsp;·&nbsp; [**📄 Paper**](https://arxiv.org/abs/2611.14663) &nbsp;·&nbsp; [**🧪 Demo source**](src/ossa/demo.py) &nbsp;·&nbsp; [**📌 BibTeX**](#citation)
 
@@ -23,7 +21,13 @@
 
 For a functional community with `p` nodes, let `Aᵢ` and `Bᵢ` be subject `i`'s FC and SC matrices, and let `S = diag(s)`. The optimizer solves the continuous relaxation in [Section 2.1 of the paper](https://arxiv.org/abs/2611.14663).
 
-![Single-core objective: maximize J(W, s), the sum over subjects of the trace of (Wᵀ Aᵢ W)(S Bᵢ S), subject to Wᵀ W = I, each node weight lying in [0, 1], and the sum of node weights at most κ.](docs/single-core-objective.png)
+$$
+\max_{W,s}\ J(W,s) = \sum_{i=1}^{n} \mathrm{tr}\bigl[(W^{\top} A_i W)(S B_i S)\bigr]
+$$
+
+$$
+W^{\top}W = I_p,\qquad s \in [0,1]^p,\qquad \sum_{j=1}^{p} s_j \leq \kappa .
+$$
 
 The objective scores how well the rotated FC aligns with the structural connectivity weighted by the selected nodes. [The optimizer](src/ossa/optimizer.py) alternates between updating **the orthogonal rotation** `W` and updating **the node weights** `s`. The `κ` largest weights define the final support.
 
@@ -121,3 +125,7 @@ The demos generate synthetic inputs in memory. Participant data, cohort files, a
   primaryClass  = {stat.ME}
 }
 ```
+
+## 📜 License
+
+Released under the [MIT License](LICENSE).
