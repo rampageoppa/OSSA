@@ -21,19 +21,11 @@
 
 ### 🎯 Single-core training objective
 
-For a functional community with $p$ nodes, let $A_i$ and $B_i$ be the FC and SC matrices for subject $i$, and let $S=\operatorname{diag}(s)$. The optimizer solves the continuous relaxation in [Section 2.1 of the paper](https://arxiv.org/abs/2611.14663).
+For a functional community with `p` nodes, let `Aᵢ` and `Bᵢ` be subject `i`'s FC and SC matrices, and let `S = diag(s)`. The optimizer solves the continuous relaxation in [Section 2.1 of the paper](https://arxiv.org/abs/2611.14663).
 
-```math
-\begin{aligned}
-\max_{W,s}\quad
-& J(W,s)=\sum_{i=1}^{n}
-  \operatorname{tr}\!\left[(W^\top A_i W)(S B_i S)\right] \\
-\text{subject to}\quad
-& W^\top W=I_p,\qquad s\in[0,1]^p,\qquad \mathbf{1}^\top s\le\kappa .
-\end{aligned}
-```
+![Single-core objective: maximize J(W, s), the sum over subjects of the trace of (Wᵀ Aᵢ W)(S Bᵢ S), subject to Wᵀ W = I, each node weight lying in [0, 1], and the sum of node weights at most κ.](docs/single-core-objective.png)
 
-The trace measures alignment between the transformed FC, $W^\top A_i W$, and the structural connectivity weighted by the selected nodes, $S B_i S$. In [the optimizer](src/ossa/optimizer.py), projected block coordinate ascent alternates between updating **the orthogonal rotation** $W$ with $s$ fixed and updating **the node weights** $s$ with $W$ fixed. After fitting, the $\kappa$ largest weights define the final support.
+The objective scores how well the rotated FC aligns with the structural connectivity weighted by the selected nodes. [The optimizer](src/ossa/optimizer.py) alternates between updating **the orthogonal rotation** `W` and updating **the node weights** `s`. The `κ` largest weights define the final support.
 
 The **multiple-support extension** shares one rotation across subnetworks and penalizes overlap between their node weights.
 
